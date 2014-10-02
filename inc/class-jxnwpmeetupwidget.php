@@ -12,6 +12,14 @@ class JxnWPMeetupWidget extends WP_Widget {
 	 */
 	public function __construct() {
 
+		// Construct this widget based off of the parent
+		parent::__construct(
+			'jxnwpmeetup_widget',
+			__( 'Jaxon WP Meetup Widget', 'jxnwpmeetup_textdomain' ),
+			array(
+				'description' => __( 'This widget will change your life', 'jxnwpmeetup_textdomain' ),
+			)
+		);
 	}
 
 	/**
