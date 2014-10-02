@@ -59,6 +59,18 @@ class JxnWPMeetupWidget extends WP_Widget {
 	 */
 	public function form( $instance ) {
 
+		// Get options
+		$title = isset( $instance['title'] ) ? $instance['title'] : '';
+
+		// Output the HTML
+		?>
+		<!-- The widget title -->
+		<p>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>">Title:</label>
+			<input type="text" name="<?php echo $this->get_field_name( 'title' ); ?>" class="widefat"
+			       id="<?php echo $this->get_field_id( 'title' ); ?>" value="<?php echo esc_attr( $title ); ?>"/>
+		</p>
+	<?php
 	}
 
 	/**
@@ -71,5 +83,11 @@ class JxnWPMeetupWidget extends WP_Widget {
 	 */
 	public function update( $new_instance, $old_instance ) {
 
+		// Get our new options and sanitize them as needed
+		$instance              = array();
+		$instance['title']     = ! empty( $new_instance['title'] ) ? strip_tags( $new_instance['title'] ) : null;
+
+		// Return our sanitized options
+		return $instance;
 	}
 }
