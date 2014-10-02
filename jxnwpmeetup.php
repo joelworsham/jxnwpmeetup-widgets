@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Plugin Name: Jaxon WP Meetup Widgets
  * Description: Show some peeps what these WP widgets are all about!
@@ -7,15 +8,5 @@
  * Version: 1.0.0
  */
 
-class JxnWPMeetup {
-
-	public function __construct() {
-
-	}
-
-	public function add_widgets() {
-
-	}
-}
-
-new JxnWPMeetup();
+// Include our widget class file
+include_once( 'inc/class-jxnwpmeetupwidget.php' );
