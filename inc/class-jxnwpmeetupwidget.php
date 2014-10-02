@@ -43,6 +43,7 @@ class JxnWPMeetupWidget extends WP_Widget {
 
 		// Get other options
 		$checkbox  = isset( $instance['checkbox'] ) ? true : false;
+		$selectbox = isset( $instance['selectbox'] ) ? $instance['selectbox'] : false;
 
 		// Echo out the other options
 
@@ -51,6 +52,9 @@ class JxnWPMeetupWidget extends WP_Widget {
 
 		// The checkbox
 		echo '<p>' . ( $checkbox ? 'The checkbox is checked!' : 'The checkbox is not checked!' ) . '</p>';
+
+		// The select box
+		echo '<p>' . ( $selectbox ? "You have selected $selectbox." : 'Nothing has been selected.' ) . '</p>';
 
 		// Echo out anything after the widget
 		echo $args['after_widget'];
@@ -68,6 +72,7 @@ class JxnWPMeetupWidget extends WP_Widget {
 		// Get options
 		$title = isset( $instance['title'] ) ? $instance['title'] : '';
 		$checkbox  = isset( $instance['checkbox'] ) ? 'checked' : '';
+		$selectbox = isset( $instance['selectbox'] ) ? $instance['selectbox'] : '';
 
 		// Output the HTML
 		?>
@@ -83,6 +88,18 @@ class JxnWPMeetupWidget extends WP_Widget {
 			<label for="<?php echo $this->get_field_id( 'checkbox' ); ?>">Checkbox</label>
 			<input type="checkbox" name="<?php echo $this->get_field_name( 'checkbox' ); ?>"
 			       id="<?php echo $this->get_field_id( 'checkbox' ); ?>" value="1" <?php echo $checkbox; ?> />
+		</p>
+
+		<!-- A select box -->
+		<p>
+			<label for="<?php echo $this->get_field_id( 'selectbox' ); ?>">Selectbox</label>
+			<select name="<?php echo $this->get_field_name( 'selectbox' ); ?>"
+			        id="<?php echo $this->get_field_id( 'selectbox' ); ?>">
+				<option value="0">Select an option from below</option>
+				<option value="Option 1" <?php selected( 'Option 1', $selectbox ); ?>>Option 1</option>
+				<option value="Option 2" <?php selected( 'Option 2', $selectbox ); ?>>Option 2</option>
+				<option value="Option 3" <?php selected( 'Option 3', $selectbox ); ?>>Option 3</option>
+			</select>
 		</p>
 	<?php
 	}
@@ -101,6 +118,7 @@ class JxnWPMeetupWidget extends WP_Widget {
 		$instance              = array();
 		$instance['title']     = ! empty( $new_instance['title'] ) ? strip_tags( $new_instance['title'] ) : null;
 		// Don't need to save checkbox. If it doesn't exist, it should be erased anyways!
+		$instance['selectbox'] = isset( $new_instance['selectbox'] ) && $new_instance['selectbox'] != '0' ? $new_instance['selectbox'] : null;
 
 		// Return our sanitized options
 		return $instance;
