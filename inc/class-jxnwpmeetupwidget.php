@@ -44,6 +44,7 @@ class JxnWPMeetupWidget extends WP_Widget {
 		// Get other options
 		$checkbox  = isset( $instance['checkbox'] ) ? true : false;
 		$selectbox = isset( $instance['selectbox'] ) ? $instance['selectbox'] : false;
+		$image = isset( $instance['image'] ) ? $instance['image'] : false;
 
 		// Echo out the other options
 
@@ -55,6 +56,11 @@ class JxnWPMeetupWidget extends WP_Widget {
 
 		// The select box
 		echo '<p>' . ( $selectbox ? "You have selected $selectbox." : 'Nothing has been selected.' ) . '</p>';
+
+		// The image
+		if ( $image ) {
+			echo '<p>' . wp_get_attachment_image( $image, 'small' ) . '</p>';
+		}
 
 		// Echo out anything after the widget
 		echo $args['after_widget'];
@@ -73,6 +79,7 @@ class JxnWPMeetupWidget extends WP_Widget {
 		$title = isset( $instance['title'] ) ? $instance['title'] : '';
 		$checkbox  = isset( $instance['checkbox'] ) ? 'checked' : '';
 		$selectbox = isset( $instance['selectbox'] ) ? $instance['selectbox'] : '';
+		$image = isset( $instance['image'] ) ? $instance['image'] : '';
 
 		// Output the HTML
 		?>
@@ -101,6 +108,11 @@ class JxnWPMeetupWidget extends WP_Widget {
 				<option value="Option 3" <?php selected( 'Option 3', $selectbox ); ?>>Option 3</option>
 			</select>
 		</p>
+
+		<!-- An image uploader -->
+		<p>
+			<?php backend_media_uploader( $this->get_field_name( 'image' ), $image ); ?>
+		</p>
 	<?php
 	}
 
@@ -119,6 +131,7 @@ class JxnWPMeetupWidget extends WP_Widget {
 		$instance['title']     = ! empty( $new_instance['title'] ) ? strip_tags( $new_instance['title'] ) : null;
 		// Don't need to save checkbox. If it doesn't exist, it should be erased anyways!
 		$instance['selectbox'] = isset( $new_instance['selectbox'] ) && $new_instance['selectbox'] != '0' ? $new_instance['selectbox'] : null;
+		$instance['image'] = isset( $new_instance['image'] ) ? $new_instance['image'] : null;
 
 		// Return our sanitized options
 		return $instance;
