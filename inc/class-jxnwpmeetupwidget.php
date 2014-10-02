@@ -30,6 +30,24 @@ class JxnWPMeetupWidget extends WP_Widget {
 	 */
 	public function widget( $args, $instance ) {
 
+		// Echo out anything before the widget
+		echo $args['before_widget'];
+
+		// Echo out the title (if it's set)
+		if ( ! empty( $instance['title'] ) ) {
+
+			echo $args['before_title'];
+			echo apply_filters( 'widget_title', $instance['title'] );
+			echo $args['after_title'];
+		}
+
+		// Echo out the other options
+
+		// Static text
+		echo '<p>Hello!</p>';
+
+		// Echo out anything after the widget
+		echo $args['after_widget'];
 	}
 
 	/**
