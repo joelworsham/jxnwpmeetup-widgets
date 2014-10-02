@@ -41,10 +41,16 @@ class JxnWPMeetupWidget extends WP_Widget {
 			echo $args['after_title'];
 		}
 
+		// Get other options
+		$checkbox  = isset( $instance['checkbox'] ) ? true : false;
+
 		// Echo out the other options
 
 		// Static text
 		echo '<p>Hello!</p>';
+
+		// The checkbox
+		echo '<p>' . ( $checkbox ? 'The checkbox is checked!' : 'The checkbox is not checked!' ) . '</p>';
 
 		// Echo out anything after the widget
 		echo $args['after_widget'];
@@ -61,6 +67,7 @@ class JxnWPMeetupWidget extends WP_Widget {
 
 		// Get options
 		$title = isset( $instance['title'] ) ? $instance['title'] : '';
+		$checkbox  = isset( $instance['checkbox'] ) ? 'checked' : '';
 
 		// Output the HTML
 		?>
@@ -69,6 +76,13 @@ class JxnWPMeetupWidget extends WP_Widget {
 			<label for="<?php echo $this->get_field_id( 'title' ); ?>">Title:</label>
 			<input type="text" name="<?php echo $this->get_field_name( 'title' ); ?>" class="widefat"
 			       id="<?php echo $this->get_field_id( 'title' ); ?>" value="<?php echo esc_attr( $title ); ?>"/>
+		</p>
+
+		<!-- A checkbox -->
+		<p>
+			<label for="<?php echo $this->get_field_id( 'checkbox' ); ?>">Checkbox</label>
+			<input type="checkbox" name="<?php echo $this->get_field_name( 'checkbox' ); ?>"
+			       id="<?php echo $this->get_field_id( 'checkbox' ); ?>" value="1" <?php echo $checkbox; ?> />
 		</p>
 	<?php
 	}
@@ -86,6 +100,7 @@ class JxnWPMeetupWidget extends WP_Widget {
 		// Get our new options and sanitize them as needed
 		$instance              = array();
 		$instance['title']     = ! empty( $new_instance['title'] ) ? strip_tags( $new_instance['title'] ) : null;
+		// Don't need to save checkbox. If it doesn't exist, it should be erased anyways!
 
 		// Return our sanitized options
 		return $instance;
