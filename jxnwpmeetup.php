@@ -11,14 +11,10 @@ class JxnWPMeetup {
 
 	public function __construct() {
 
-		include_once( 'inc/class-jxnwpmeetupwidget.php' );
-
-		add_action( 'widgets_init', array( $this, 'add_widgets' ) );
 	}
 
 	public function add_widgets() {
 
-		register_widget( 'JxnWPMeetupWidget' );
 	}
 }
 
