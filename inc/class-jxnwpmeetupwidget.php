@@ -1,23 +1,35 @@
 <?php
 
 /**
- * Class JxnWPMeetupWidget.
- *
  * An awesome class that creates an incredible widget for use on the WordPress widgets page.
+ *
+ * CHANGE THIS CLASS NAME to whatever you want (no spaces, no dashes, just letters, numbers, and underscores), and make
+ * sure this matches EXACTLY what is in "register_widget" in the other file.
  */
 class JxnWPMeetupWidget extends WP_Widget {
 
 	/**
-	 * The main construct function. Launches on instantiation.
+	 * The main construct function. Launches on the class load.
+	 *
+	 * Do NOT delete this function, but please modify it.
 	 */
 	public function __construct() {
 
-		// Construct this widget based off of the parent
+		// Construct this widget based off of the parent. This is very important and necessary.
 		parent::__construct(
+
+			// This is your widget "id_base". Just make it unique, all lowercase, no dashes, and no spaces. Just letters,
+			// numbers, and underscores. Make it unique!
 			'jxnwpmeetup_widget',
-			__( 'Jaxon WP Meetup Widget', 'jxnwpmeetup_textdomain' ),
+
+			// This is the title of your widget. This is what will show on the left side (available widgets) on the widget
+			// customization screen. Make it whatever you want!
+			'Jaxon WP Meetup Widget',
+
+			// This is the widget description. Again, this will show in the available widgets area under your custom
+			// widget. Make it whatever you want as well!
 			array(
-				'description' => __( 'This widget will change your life', 'jxnwpmeetup_textdomain' ),
+				'description' => 'This widget will change your life',
 			)
 		);
 	}
@@ -25,15 +37,17 @@ class JxnWPMeetupWidget extends WP_Widget {
 	/**
 	 * Fires when displaying the widget on the front-end.
 	 *
+	 * Do NOT delete this function, but please modify it.
+	 *
 	 * @param array $args The current widget args.
 	 * @param array $instance The current widget instance.
 	 */
 	public function widget( $args, $instance ) {
 
-		// Echo out anything before the widget
+		// Echo out anything before the widget, don't mess with this or delete it.
 		echo $args['before_widget'];
 
-		// Echo out the title (if it's set)
+		// Echo out the title (if it's set), don't mess with this or delete it.
 		if ( ! empty( $instance['title'] ) ) {
 
 			echo $args['before_title'];
@@ -41,33 +55,74 @@ class JxnWPMeetupWidget extends WP_Widget {
 			echo $args['after_title'];
 		}
 
-		// Get other options
+		// Everything below here (up until echoing out after_widget) is fully in your control. This is where the display
+		// of your widget will be. Add HTML, add PHP, add Javascript, add whatever!
+
+		// Get other options. Don't worry toooooo much about what these are doing. Just copy/paste them, tweak the names,
+		// but they work pretty well.
+
+		// Get the checkbox option
 		$checkbox  = isset( $instance['checkbox'] ) ? true : false;
+
+		// Get the select box option
 		$selectbox = isset( $instance['selectbox'] ) ? $instance['selectbox'] : false;
+
+		// Get the image option
 		$image = isset( $instance['image'] ) ? $instance['image'] : false;
 
-		// Echo out the other options
+		// Echo out the other options to the page.
 
-		// Static text
-		echo '<p>Hello!</p>';
+		// Enter all the custom HTML you want here! Just like below.
+		?>
+		<h2 class="title">A title!</h2>
+		<div class="some-content">
+			<p>Content, content, content!</p>
+		</div>
+		<?php
 
 		// The checkbox
-		echo '<p>' . ( $checkbox ? 'The checkbox is checked!' : 'The checkbox is not checked!' ) . '</p>';
+		if ( $checkbox ) {
+
+			// Everything between these brackets will only happen IF the checkbox is checked.
+			?>
+			The checkbox is checked! Woohoo!!
+			<?php
+		} else {
+
+			// Everything here will happen when the checkbox is NOT checked.
+			?>
+			The checkbox is NOT checked! Darn!
+			<?php
+		}
 
 		// The select box
-		echo '<p>' . ( $selectbox ? "You have selected $selectbox." : 'Nothing has been selected.' ) . '</p>';
+		if ( $selectbox ) {
+
+			// This will show when the user has selected something, anything.
+			?>
+			You have selected <?php echo $selectbox; ?>!
+		<?php
+		} else {
+
+			// This will show if the select box has not been used.
+			?>
+			You have not selected anything!
+			<?php
+		}
 
 		// The image
 		if ( $image ) {
 			echo '<p>' . wp_get_attachment_image( $image, 'small' ) . '</p>';
 		}
 
-		// Echo out anything after the widget
+		// Echo out anything after the widget, don't mess with this or delete it.
 		echo $args['after_widget'];
 	}
 
 	/**
 	 * Fires on the backend, inside of the widget. Used for customizing the current widget's options.
+	 *
+	 * If your widget doesn't need any options, just delete this whoooole function.
 	 *
 	 * @param array $instance The current widget instance.
 	 *
@@ -82,6 +137,8 @@ class JxnWPMeetupWidget extends WP_Widget {
 		$image = isset( $instance['image'] ) ? $instance['image'] : '';
 
 		// Output the HTML
+		// These can be confusing. Just copy/paste them as needed and be sure to change the txt where needed (like in
+		// the first one, change "title" wherever it exists)
 		?>
 		<!-- The widget title -->
 		<p>
@@ -119,6 +176,8 @@ class JxnWPMeetupWidget extends WP_Widget {
 	/**
 	 * Fires when hitting the save button. Used to sanitize widget options on save.
 	 *
+	 * If your widget has no options, delete this whooole function.
+	 *
 	 * @param array $new_instance The post-updated instance.
 	 * @param array $old_instance The pre-updated instance.
 	 *
@@ -127,9 +186,10 @@ class JxnWPMeetupWidget extends WP_Widget {
 	public function update( $new_instance, $old_instance ) {
 
 		// Get our new options and sanitize them as needed
+		// Anything existing in form needs to exist here!
 		$instance              = array();
 		$instance['title']     = ! empty( $new_instance['title'] ) ? strip_tags( $new_instance['title'] ) : null;
-		// Don't need to save checkbox. If it doesn't exist, it should be erased anyways!
+		$instance['checkbox'] = isset( $new_instance['checkbox'] ) ? '1' : null;
 		$instance['selectbox'] = isset( $new_instance['selectbox'] ) && $new_instance['selectbox'] != '0' ? $new_instance['selectbox'] : null;
 		$instance['image'] = isset( $new_instance['image'] ) ? $new_instance['image'] : null;
 
